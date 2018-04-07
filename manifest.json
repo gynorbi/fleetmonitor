@@ -1,0 +1,7 @@
+{
+  "name": "fleetmonitor",
+  "short_name": "fleetmonitor",
+  "description": "Fleet monitoring using Safefleet API",
+  "start_url": "/",
+  "display": "standalone"
+}

@@ -1,0 +1,32 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="fleetmonitor-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]!</h2>
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class FleetmonitorApp extends Polymer.Element {
+      static get is() { return 'fleetmonitor-app'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'fleetmonitor-app'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(FleetmonitorApp.is, FleetmonitorApp);
+  </script>
+</dom-module>
