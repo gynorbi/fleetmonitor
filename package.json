@@ -9,7 +9,7 @@
   "scripts": {
     "start": "polymer serve -o",
     "build": "polymer build",
-    "deploy": "npm run build && gh-pages -d build",
+    "deploy": "npm run build && gh-pages -d build/default",
     "lint": "npm run lint:javascript && polymer lint",
     "lint:javascript": "eslint . --ext js,html --ignore-path .gitignore",
     "test": "polymer test",
