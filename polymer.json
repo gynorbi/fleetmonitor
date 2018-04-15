@@ -5,6 +5,11 @@
       "polymer-2"
     ]
   },
+  "sources": [
+   "src/**/*",
+   "data/**/*",
+   "images/**/*"
+  ],
   "builds": [
     {
       "basePath": "/fleetmonitor/"
