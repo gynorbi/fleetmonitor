@@ -1,13 +1,37 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/app-layout/app-layout.html">
+<link rel="import" href="../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<!-- <link rel="import" href="../../bower_components/paper-progress/paper-progress.html"> -->
+
 
 <dom-module id="fleetmonitor-app">
   <template>
     <style>
-      :host {
-        display: block;
+      app-header {
+        background-color: rgb(238, 110, 5);
+        color: #fff;
+      }
+
+      paper-icon-button {
+        --paper-icon-button-ink-color: white;
+      }
+
+      app-drawer-layout:not([narrow]) [drawer-toggle] {
+        display: none;
       }
     </style>
-    <h2>Hello [[prop1]]!</h2>
+    <iron-ajax auto url="data/fares.json" handle-as="json" on-response="_handleResponse"></iron-ajax>
+    <div>
+      <p>
+        <span>When: [[upcomingEvent.time]]</span>
+      </p>
+      <p>
+        <span>Who: [[upcomingEvent.vehicle]]</span>
+      </p>
+    </div>
   </template>
 
   <script>
@@ -22,8 +46,29 @@
           prop1: {
             type: String,
             value: 'fleetmonitor-app'
+          },
+          faresList: {
+            type: Object
+          },
+          upcomingEvent: {
+            type: Object
           }
         };
+      }
+      _handleResponse(event) {
+        this.faresList = event.detail.response.fares;
+        this._getUpcomingEvent();
+      }
+      _getUpcomingEvent() {
+        let now = new Date();
+        let currentTime = ("0" + (now.getHours() - 12)).slice(-2) + ":" + ("0" + now.getMinutes()).slice(-2);
+        this.upcomingEvent = { "time": "tomorrow", "vehicle": "none" };
+        for (let i = 0; i < this.faresList.length; i++) {
+          if (currentTime < this.faresList[i].time) {
+            this.upcomingEvent = this.faresList[i];
+            break;
+          }
+        }
       }
     }
 
