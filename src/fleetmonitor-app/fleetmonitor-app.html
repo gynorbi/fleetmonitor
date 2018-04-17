@@ -22,14 +22,18 @@
         display: none;
       }
     </style>
-    <iron-ajax auto url="data/fares.json" handle-as="json" on-response="_handleResponse"></iron-ajax>
+    <iron-ajax auto url="data/fares.json" handle-as="json" on-response="_handleFareResponse"></iron-ajax>
+    <iron-ajax auto url="data/poi.json" handle-as="json" on-response="_handlePOIResponse"></iron-ajax>
+
     <div>
-      <p>
-        <h3>When: [[upcomingEvent.time]]</h3>
-      </p>
-      <p>
-        <h3>Who: [[upcomingEvent.vehicle]]</h3>
-      </p>
+      <template is="dom-repeat" items="upcomingEvents">
+        <p>
+          <h3>When: [[item.time]]</h3>
+        </p>
+        <p>
+          <h3>Who: [[item.vehicle]]</h3>
+        </p>
+      </template>
     </div>
   </template>
 
@@ -49,24 +53,34 @@
           faresList: {
             type: Object
           },
-          upcomingEvent: {
+          poiList: {
+            type: Object
+          },
+          upcomingEvents: {
             type: Object
           }
         };
       }
-      _handleResponse(event) {
-        this.faresList = event.detail.response.fares;
-        this._getUpcomingEvent();
+      _handlePOIResponse(event){
+        this.poiList = event.detail.response.poi;
       }
-      _getUpcomingEvent() {
+      _handleFareResponse(event) {
+        this.faresList = event.detail.response.fares;
+        this._getUpcomingEvents(3);
+      }
+      _getUpcomingEvents(numberToShow) {
         let now = new Date();
         let currentTime = ("0" + now.getHours()).slice(-2) + ":" + ("0" + now.getMinutes()).slice(-2);
-        this.upcomingEvent = { "time": "tomorrow", "vehicle": "none" };
-        for (let i = 0; i < this.faresList.length; i++) {
+        this.upcomingEvents = [];
+        for (let i = 0; i < this.faresList.length && numberToShow > 0; i++) {
           if (currentTime < this.faresList[i].time) {
-            this.upcomingEvent = this.faresList[i];
+            this.upcomingEvents.push(this.faresList[i]);
+            numberToShow--;
             break;
           }
+        }
+        if(this.upcomingEvents.length == 0){
+          this.upcomingEvents.push({ "time": "tomorrow", "vehicle": "none" });
         }
       }
     }

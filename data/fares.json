@@ -3,91 +3,91 @@
         {
             "id":"",
             "time":"07:45",
-            "origin":"CDG",
+            "origin":"CDG-Park",
             "destination":"Tipo",
             "vehicle":"B154RTT"
         },
         {
             "id":"",
             "time":"08:00",
-            "origin":"CDG",
+            "origin":"CDG-Park",
             "destination":"Tipo",
             "vehicle":"B103RTT"
         },
         {
             "id":"",
             "time":"08:15",
-            "origin":"CDG",
+            "origin":"CDG-Park",
             "destination":"Tipo",
             "vehicle":"B158RTT"
         },
         {
             "id":"",
             "time":"08:30",
-            "origin":"CDG",
+            "origin":"CDG-Park",
             "destination":"Tipo",
             "vehicle":"B103RTT"
         },
         {
             "id":"",
             "time":"08:30",
-            "origin":"CDG",
+            "origin":"CDG-Park",
             "destination":"Tipo",
             "vehicle":"B154RTT"
         },
         {
             "id":"",
             "time":"08:40",
-            "origin":"CDG",
+            "origin":"CDG-Park",
             "destination":"Tipo",
             "vehicle":"B155RTT"
         },
         {
             "id":"",
             "time":"08:45",
-            "origin":"CDG",
+            "origin":"CDG-Park",
             "destination":"Tipo",
             "vehicle":"B158RTT"
         },
         {
             "id":"",
             "time":"08:45",
-            "origin":"CDG",
+            "origin":"CDG-Park",
             "destination":"Tipo",
             "vehicle":"B150RTT"
         },
         {
             "id":"",
             "time":"09:00",
-            "origin":"CDG",
+            "origin":"CDG-Park",
             "destination":"Tipo",
             "vehicle":"B103RTT"
         },
         {
             "id":"",
             "time":"09:15",
-            "origin":"CDG",
+            "origin":"CDG-Park",
             "destination":"Tipo",
             "vehicle":"B155RTT"
         },
         {
             "id":"",
             "time":"09:30",
-            "origin":"CDG",
+            "origin":"CDG-Park",
             "destination":"Tipo",
             "vehicle":"B150RTT"
         },
         {
             "id":"",
             "time":"09:45",
-            "origin":"CDG",
+            "origin":"CDG-Park",
             "destination":"Tipo",
             "vehicle":"B153RTT"
         },
         {
             "id":"",
             "time":"10:30",
-            "origin":"CDG",
+            "origin":"CDG-Park",
             "destination":"Tipo",
             "vehicle":"B153RTT"
         },
@@ -95,77 +95,77 @@
             "id":"",
             "time":"16:45",
             "origin":"Tipo",
-            "destination":"CDG",
+            "destination":"CDG-Metro",
             "vehicle":"B103RTT"
         },
         {
             "id":"",
             "time":"17:00",
             "origin":"Tipo",
-            "destination":"CDG",
+            "destination":"CDG-Metro",
             "vehicle":"B158RTT"
         },
         {
             "id":"",
             "time":"17:15",
             "origin":"Tipo",
-            "destination":"CDG",
+            "destination":"CDG-Metro",
             "vehicle":"B103RTT"
         },
         {
             "id":"",
             "time":"17:30",
             "origin":"Tipo",
-            "destination":"CDG",
+            "destination":"CDG-Metro",
             "vehicle":"B153RTT"
         },
         {
             "id":"",
             "time":"17:30",
             "origin":"Tipo",
-            "destination":"CDG",
+            "destination":"CDG-Metro",
             "vehicle":"B158RTT"
         },
         {
             "id":"",
             "time":"17:45",
             "origin":"Tipo",
-            "destination":"CDG",
+            "destination":"CDG-Metro",
             "vehicle":"B154RTT"
         },
         {
             "id":"",
             "time":"17:45",
             "origin":"Tipo",
-            "destination":"CDG",
+            "destination":"CDG-Metro",
             "vehicle":"B06RXT"
         },
         {
             "id":"",
             "time":"18:00",
             "origin":"Tipo",
-            "destination":"CDG",
+            "destination":"CDG-Metro",
             "vehicle":"B153RTT"
         },
         {
             "id":"",
             "time":"18:15",
             "origin":"Tipo",
-            "destination":"CDG",
+            "destination":"CDG-Metro",
             "vehicle":"B155RTT"
         },
         {
             "id":"",
             "time":"18:30",
             "origin":"Tipo",
-            "destination":"CDG",
+            "destination":"CDG-Metro",
             "vehicle":"B154RTT"
         },
         {
             "id":"",
             "time":"19:40",
             "origin":"Tipo",
-            "destination":"CDG",
+            "destination":"CDG-Metro",
             "vehicle":"B06RXT"
         }
     ]
