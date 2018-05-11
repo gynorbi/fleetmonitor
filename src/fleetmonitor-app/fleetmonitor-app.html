@@ -4,6 +4,7 @@
 <link rel="import" href="../../bower_components/app-layout/app-layout.html">
 <link rel="import" href="../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/google-map/google-map.html">
 <!-- <link rel="import" href="../../bower_components/paper-progress/paper-progress.html"> -->
 
 <dom-module id="fleetmonitor-app">
@@ -21,26 +22,47 @@
       app-drawer-layout:not([narrow]) [drawer-toggle] {
         display: none;
       }
-      .fareItem{
+
+      .items {
+        width: 50%;
+        float: left;
+      }
+
+      .map {
+        width: 50%;
+        float: left;
+      }
+
+      .fareItem {
         border-color: blue;
         border-width: 1px;
         border-style: solid;
-        width: 50%;
         font-size: larger;
         padding: 10px;
+      }
+
+      .fareItem span {
+        display: block;
+      }
+
+      google-map {
+        height: 250px;
       }
     </style>
     <iron-ajax auto url="data/fares.json" handle-as="json" on-response="_handleFareResponse"></iron-ajax>
     <iron-ajax auto url="data/poi.json" handle-as="json" on-response="_handlePOIResponse"></iron-ajax>
 
-    <div>
+    <div class="items">
       <template is="dom-repeat" items="[[upcomingEvents]]">
         <div class="fareItem">
-            <span class="when">When: [[item.time]]</span>
-            <span class="vehicle">Who: [[item.vehicle]]</span>
-            <span class="eta"></span>
+          <span class="when">When: [[item.time]]</span>
+          <span class="vehicle">Who: [[item.vehicle]]</span>
+          <span class="eta">ETA: [[item.eta]]</span>
         </div>
       </template>
+    </div>
+    <div class="map">
+      <google-map latitude="37.77493" longitude="-122.41942" api-key="AIzaSyBykA1WPZcX6Hsk3qBmN97tW9uM7FwpxCA"></google-map>
     </div>
   </template>
 
@@ -74,7 +96,7 @@
       }
       _handleFareResponse(event) {
         this.faresList = event.detail.response.fares;
-        this._getUpcomingEvents(3);
+        this._getUpcomingEvents(5);
       }
       _getUpcomingEvents(numberToShow) {
         let now = new Date();
@@ -82,12 +104,30 @@
         this.upcomingEvents = [];
         for (let i = 0; i < this.faresList.length && numberToShow > 0; i++) {
           if (currentTime < this.faresList[i].time) {
-            this.upcomingEvents.push(this.faresList[i]);
+            let eta = this._getETA(this.faresList[i].vehicle);
+            let upcomingFare = {
+              "time": this.faresList[i].time,
+              "vehicle": this.faresList[i].vehicle,
+              "eta": eta
+            };
+            this.upcomingEvents.push(upcomingFare);
             numberToShow--;
           }
         }
         if (this.upcomingEvents.length == 0) {
-          this.upcomingEvents.push({ "time": "tomorrow", "vehicle": "none" });
+          this.upcomingEvents.push({ "time": "tomorrow", "vehicle": "none", "eta": "n/a" });
+        }
+      }
+      _getETA(vehicle) {
+        let minutes = 10;
+        return this._time`${minutes} minutes`;
+      }
+      _time(strings, minutes) {
+        if (minutes === 1) {
+          return `${minutes} minute`
+        }
+        else {
+          return `${minutes} minutes`
         }
       }
     }
