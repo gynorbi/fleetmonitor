@@ -5,6 +5,7 @@
 <link rel="import" href="../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/google-map/google-map.html">
+<link rel="import" href="../../bower_components/google-map/google-map-directions.html">
 <!-- <link rel="import" href="../../bower_components/paper-progress/paper-progress.html"> -->
 
 <dom-module id="fleetmonitor-app">
@@ -52,17 +53,23 @@
     <iron-ajax auto url="data/fares.json" handle-as="json" on-response="_handleFareResponse"></iron-ajax>
     <iron-ajax auto url="data/poi.json" handle-as="json" on-response="_handlePOIResponse"></iron-ajax>
 
+
     <div class="items">
       <template is="dom-repeat" items="[[upcomingEvents]]">
         <div class="fareItem">
           <span class="when">When: [[item.time]]</span>
           <span class="vehicle">Who: [[item.vehicle]]</span>
           <span class="eta">ETA: [[item.eta]]</span>
+          <span class="traffic">Traffic: [[item.traffic]]</span>
         </div>
       </template>
     </div>
     <div class="map">
-      <google-map latitude="37.77493" longitude="-122.41942" api-key="AIzaSyBykA1WPZcX6Hsk3qBmN97tW9uM7FwpxCA"></google-map>
+      <google-map-directions map="{{map}}" start-address="[[currentPos]]" end-address="[[destinationPos]]" travel-mode="DRIVING"></google-map-directions>
+      <google-map map={{map}} latitude="[[currentPos.Lat]]" longitude="[[currentPos.Long]]" api-key="AIzaSyBykA1WPZcX6Hsk3qBmN97tW9uM7FwpxCA"
+        fit-to-markers zoom="15">
+        <google-map-marker latitude="[[currentPos.Lat]]" longitude="[[currentPos.Long]]" draggable="false" title="You are here"></google-map-marker>
+      </google-map>
     </div>
   </template>
 
@@ -75,10 +82,6 @@
       static get is() { return 'fleetmonitor-app'; }
       static get properties() {
         return {
-          prop1: {
-            type: String,
-            value: 'fleetmonitor-app'
-          },
           faresList: {
             type: Object
           },
@@ -86,13 +89,25 @@
             type: Object
           },
           upcomingEvents: {
-            type: Object,
-            reflectToAttribute: true
+            type: Object
+          },
+          currentPos: {
+            type: Object
+          },
+          destinationPos:{
+            type: Object
           }
         };
       }
+      _handleDirectionService(event) {
+
+      }
       _handlePOIResponse(event) {
-        this.poiList = event.detail.response.poi;
+        this.poiList = event.detail.response.POI;
+        let currentPOIId = this._whereAmI(false);
+        this.currentPos = this.poiList.find((item) => item.Id == currentPOIId);
+        let destinationPOIId = this._headingTo(currentPOIId); 
+        this.destinationPos = this.poiList.find((item) => item.Id == destinationPOIId);
       }
       _handleFareResponse(event) {
         this.faresList = event.detail.response.fares;
@@ -119,8 +134,9 @@
         }
       }
       _getETA(vehicle) {
-        let minutes = 10;
-        return this._time`${minutes} minutes`;
+        return "n/a";
+        //let minutes = 10;
+        //return this._time`${minutes} minutes`;
       }
       _time(strings, minutes) {
         if (minutes === 1) {
@@ -129,6 +145,27 @@
         else {
           return `${minutes} minutes`
         }
+      }
+      _whereAmI(usePosition) {
+        if (usePosition) {
+          // Later, dude!
+          throw "Using geolocalization is not supported yet";
+        }
+        else {
+          var now = new Date();
+          if (now.getHours() < 11) {
+            return "CDG-Park";
+          } else {
+            return "Tipo";
+          }
+        }
+      }
+      _headingTo(origin) {
+        switch (origin) {
+          case "CDG-Park": return "Tipo";
+          case "Tipo": return "CDG-Metro";
+          default: return "";
+        };
       }
     }
 
