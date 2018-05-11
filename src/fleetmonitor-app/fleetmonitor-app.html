@@ -21,18 +21,25 @@
       app-drawer-layout:not([narrow]) [drawer-toggle] {
         display: none;
       }
+      .fareItem{
+        border-color: blue;
+        border-width: 1px;
+        border-style: solid;
+        width: 50%;
+        font-size: larger;
+        padding: 10px;
+      }
     </style>
     <iron-ajax auto url="data/fares.json" handle-as="json" on-response="_handleFareResponse"></iron-ajax>
     <iron-ajax auto url="data/poi.json" handle-as="json" on-response="_handlePOIResponse"></iron-ajax>
 
     <div>
-      <template is="dom-repeat" items="upcomingEvents">
-        <p>
-          <h3>When: [[item.time]]</h3>
-        </p>
-        <p>
-          <h3>Who: [[item.vehicle]]</h3>
-        </p>
+      <template is="dom-repeat" items="[[upcomingEvents]]">
+        <div class="fareItem">
+            <span class="when">When: [[item.time]]</span>
+            <span class="vehicle">Who: [[item.vehicle]]</span>
+            <span class="eta"></span>
+        </div>
       </template>
     </div>
   </template>
@@ -57,11 +64,12 @@
             type: Object
           },
           upcomingEvents: {
-            type: Object
+            type: Object,
+            reflectToAttribute: true
           }
         };
       }
-      _handlePOIResponse(event){
+      _handlePOIResponse(event) {
         this.poiList = event.detail.response.poi;
       }
       _handleFareResponse(event) {
@@ -76,10 +84,9 @@
           if (currentTime < this.faresList[i].time) {
             this.upcomingEvents.push(this.faresList[i]);
             numberToShow--;
-            break;
           }
         }
-        if(this.upcomingEvents.length == 0){
+        if (this.upcomingEvents.length == 0) {
           this.upcomingEvents.push({ "time": "tomorrow", "vehicle": "none" });
         }
       }
