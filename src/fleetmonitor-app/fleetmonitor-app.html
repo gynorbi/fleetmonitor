@@ -75,6 +75,7 @@
       </google-map>
       <div class="traffic">Traffic: [[_getDuration(directionsResponse)]] </div>      
     </div>
+    <textarea>[[messages]]</textarea>
   </template>
 
   <script>
@@ -104,10 +105,15 @@
           directionsResponse:{
             type: Object,
             notify:true
+          },
+          messages:{
+            type:String,
+            value:""
           }
         };
       }
       _getDuration(response){
+        this.messages+="|getting duration";
         return response.routes[0].legs[0].duration.text;
       }
       _handlePOIResponse(event) {
