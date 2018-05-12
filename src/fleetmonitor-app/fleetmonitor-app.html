@@ -25,12 +25,12 @@
       }
 
       .items {
-        width: 50%;
+        width: 30%;
         float: left;
       }
 
       .map {
-        width: 50%;
+        width: 70%;
         float: left;
       }
 
@@ -46,8 +46,13 @@
         display: block;
       }
 
+      .map .traffic{
+        font-size: larger;
+        padding: 10px;
+      }
+
       google-map {
-        height: 250px;
+        height: 400px;
       }
     </style>
     <iron-ajax auto url="data/fares.json" handle-as="json" on-response="_handleFareResponse"></iron-ajax>
@@ -60,16 +65,17 @@
           <span class="when">When: [[item.time]]</span>
           <span class="vehicle">Who: [[item.vehicle]]</span>
           <span class="eta">ETA: [[item.eta]]</span>
-          <span class="traffic">Traffic: [[item.traffic]]</span>
         </div>
       </template>
     </div>
     <div class="map">
-      <google-map-directions map="{{map}}" start-address="[[currentPos]]" end-address="[[destinationPos]]" travel-mode="DRIVING"></google-map-directions>
-      <google-map map={{map}} latitude="[[currentPos.Lat]]" longitude="[[currentPos.Long]]" api-key="AIzaSyBykA1WPZcX6Hsk3qBmN97tW9uM7FwpxCA"
+      <google-map-directions api-key="AIzaSyBykA1WPZcX6Hsk3qBmN97tW9uM7FwpxCA" start-address="[[currentPos]]" end-address="[[destinationPos]]"
+        travel-mode="DRIVING" response="{{directionsResponse}}"></google-map-directions>
+      <google-map map={{map}} latitude="[[currentPos.lat]]" longitude="[[currentPos.lng]]" api-key="AIzaSyBykA1WPZcX6Hsk3qBmN97tW9uM7FwpxCA"
         fit-to-markers zoom="15">
-        <google-map-marker latitude="[[currentPos.Lat]]" longitude="[[currentPos.Long]]" draggable="false" title="You are here"></google-map-marker>
+        <google-map-marker slot="markers" latitude="[[currentPos.lat]]" longitude="[[currentPos.lng]]" draggable="false" title="You are here"></google-map-marker>
       </google-map>
+      <div class="traffic">Traffic: [[_getDuration(directionsResponse)]] </div>      
     </div>
   </template>
 
@@ -94,20 +100,31 @@
           currentPos: {
             type: Object
           },
-          destinationPos:{
+          destinationPos: {
+            type: Object
+          },
+          directionsResponse:{
             type: Object
           }
         };
       }
-      _handleDirectionService(event) {
-
+      _getDuration(response){
+        return response.routes[0].legs[0].duration.text;
       }
       _handlePOIResponse(event) {
-        this.poiList = event.detail.response.POI;
+        this.poiList = event.detail.response.poi;
         let currentPOIId = this._whereAmI(false);
-        this.currentPos = this.poiList.find((item) => item.Id == currentPOIId);
-        let destinationPOIId = this._headingTo(currentPOIId); 
-        this.destinationPos = this.poiList.find((item) => item.Id == destinationPOIId);
+        let currentPOI = this.poiList.find((item) => item.id == currentPOIId);
+        this.currentPos = {
+          lat: parseFloat(currentPOI.lat),
+          lng: parseFloat(currentPOI.lng)
+        };
+        let destinationPOIId = this._headingTo(currentPOIId);
+        let destinationPOI = this.poiList.find((item) => item.id == destinationPOIId);
+        this.destinationPos = {
+          lat: parseFloat(destinationPOI.lat),
+          lng: parseFloat(destinationPOI.lng)
+        };;
       }
       _handleFareResponse(event) {
         this.faresList = event.detail.response.fares;
