@@ -69,8 +69,8 @@
       </template>
     </div>
     <div class="map">
-      <google-map-directions api-key="AIzaSyBykA1WPZcX6Hsk3qBmN97tW9uM7FwpxCA" start-address="[[currentPos]]" end-address="[[destinationPos]]" travel-mode="DRIVING" response="{{directionsResponse}}"></google-map-directions>
-      <google-map map="{{map}}" latitude="[[currentPos.lat]]" longitude="[[currentPos.lng]]" api-key="AIzaSyBykA1WPZcX6Hsk3qBmN97tW9uM7FwpxCA" fit-to-markers="" zoom="15">
+      <google-map-directions api-key="AIzaSyAfRHD-kTlTxLv-hrPV89g0ZpbGhXGSyqA" start-address="[[currentPos]]" end-address="[[destinationPos]]" travel-mode="DRIVING" response="{{directionsResponse}}"></google-map-directions>
+      <google-map map="{{map}}" latitude="[[currentPos.lat]]" longitude="[[currentPos.lng]]" api-key="AIzaSyAfRHD-kTlTxLv-hrPV89g0ZpbGhXGSyqA" fit-to-markers="" zoom="15">
         <google-map-marker slot="markers" latitude="[[currentPos.lat]]" longitude="[[currentPos.lng]]" draggable="false" title="You are here"></google-map-marker>
       </google-map>
       <div class="traffic">Traffic: [[_getDuration(directionsResponse)]] </div>
